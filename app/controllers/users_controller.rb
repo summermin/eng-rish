@@ -19,12 +19,12 @@ class UsersController < ApplicationController
       config.access_token        = ENV["access_token"]
       config.access_token_secret = ENV["access_token_secret"]
     end
-
+    
     tweets = client.user_timeline("#{params[:id]}",{count: 200})
 
     # all_tweets = tweets.map { |tweet| tweet.text }
     all_tweets = tweets.map(&:text).join(" ").downcase
-    all_tweets.gsub!(/rt|[.,?!():;]/,"")
+    all_tweets.gsub!(/\brt|[.,?!():;]/,"")
 
     words = all_tweets.split(" ")
 
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
                       word.length
                     end  
 
-    avg_length = word_lengths.inject{ |sum, el| sum + el }.to_f / word_lengths.size
+    avg_length = word_lengths.inject(:+).to_f / word_lengths.size
     binding.pry
 
   end
