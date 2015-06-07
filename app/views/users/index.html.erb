@@ -1,1 +1,8 @@
 <h1>Your vocabulary...</h1>
+
+
+<%= form_tag("", method: "get", class: "twitter_form") do %>
+  <%= label_tag(:user, "Your Twitter handle:") %>
+  <%= text_field_tag(:user) %>
+  <%= submit_tag("Let's go!") %>
+<% end %>
