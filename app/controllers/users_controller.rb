@@ -28,7 +28,10 @@ class UsersController < ApplicationController
             "only", "other", "over", "person", "say", "see", 
             "some", "take", "these", "think", "time", "two", 
             "use", "want", "way", "well", "what", "with", "work", 
-            "would", "year"
+            "would", "year" "are", "call", "did", "do", 
+            "down", "each", "find", "had", "how", "long", 
+            "made", "many", "may", "more", "number", "part", 
+            "people", "said", "than", "the", "word", "you", "your",
           ]
 
     client = Twitter::REST::Client.new do |config|
