@@ -7,6 +7,7 @@ $(document).ready(function(){
 
    if($('body').is('#users.show')){
     $(".score").hide();
+    $("#ego_button").hide()
 
     $.ajax({
       url: window.location.pathname + '/get_tweets',
@@ -26,7 +27,7 @@ $(document).ready(function(){
         $(".avg_length").append(score)
 
         var words = dataset.word_list;
-        var pie = new d3pie("chart", {
+        var donut = new d3pie("donut_chart", {
           header: {
             title: {
               text: "Your Top 20",
@@ -200,7 +201,114 @@ $(document).ready(function(){
               segmentStroke: "#000000"
             }
           }
+        }); //donut
+      
+      $("#ego_button").show()
+
+      $("#ego_button").bind("submit", function(event) {
+        event.preventDefault();
+        $("#donut_chart").empty();
+        $("#ego_button").hide()
+
+        var pronouns = dataset.pronoun_list;
+
+        var first_total = 0;
+        var second_total = 0;
+        var third_total = 0;
+
+        pronouns.forEach(function(pronoun){
+          if(pronoun.person === "1st"){
+            first_total += pronoun.freq
+          } else if(pronoun.person === "2nd"){
+            second_total += pronoun.freq
+          } else if (pronoun.person === "3rd"){
+            third_total += pronoun.freq
+          }
         });
+
+        var pie = new d3pie("pie_chart", {
+          header: {
+            title: {
+              text: "Your Ego",
+              fontSize: 22,
+              font: "verdana"
+            },
+            subtitle: {
+              text: "analyzing the ratio of first person to second & third person pronouns you use",
+              color: "#999999",
+              fontSize: 10,
+              font: "verdana"
+            },
+            titleSubtitlePadding: 12
+          },
+          footer: {
+            color: "#999999",
+            fontSize: 11,
+            font: "open sans",
+            location: "bottom-center"
+          },
+          size: {
+            canvasHeight: 400,
+            canvasWidth: 590,
+            pieOuterRadius: "90%"
+          },
+          data: {
+            content: [
+              {
+                label: "all about me me me",
+                value: first_total,
+                color: "#c83163"
+              },
+              {
+                label: "yous guys, you're great",
+                value: second_total,
+                color: "#4fa9b8"
+              },
+              {
+                label: "they crushed it",
+                value: third_total,
+                color: "#f69618"
+              }
+            ]
+          },
+          labels: {
+            outer: {
+              pieDistance: 32
+            },
+            inner: {
+              format: "percentage"
+            },
+            mainLabel: {
+              font: "verdana"
+            },
+            percentage: {
+              color: "#e1e1e1",
+              font: "verdana",
+              decimalPlaces: 0
+            },
+            value: {
+              color: "#ffffff",
+              font: "verdana"
+            },
+            lines: {
+              enabled: true,
+              color: "#cccccc"
+            },
+            truncation: {
+              enabled: true
+            }
+          },
+          effects: {
+            pullOutSegmentOnClick: {
+              effect: "linear",
+              speed: 400,
+              size: 8
+            }
+          }
+        });
+
       });
+
+      }); //.done
    }
 })

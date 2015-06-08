@@ -7,10 +7,10 @@ class UsersController < ApplicationController
   end
 
   def get_tweets
-    exclude = ["i", "i'm", "i've", "me", "my", 
-            "you", "your", "you're", "u",
+    exclude = ["i", "i'm", "i've", "me", "my", "us", "our", "we", "we're",
+            "you", "your", "you're", "yours",
             "he", "she", "him", "her", "his", "hers",
-            "we", "we're", "us", "our", "them", "they", "their", "they're", "it", "it's",
+            "them", "they", "their", "they're", "it", "it's",
             "who", "whose", "whom", "how",
             "a", "an", "the",
             "am", "is", "are", "was", "were", "be", "being", "been", "has", "have", "had",
@@ -20,6 +20,11 @@ class UsersController < ApplicationController
             "and", "but", "or", "yet", "nor",
             "this", "that", "that's", "which", "there", "what", "if",
             "just", "not", "than", "then", "also", "like"]
+
+    first_p   = ["i", "i'm", "i've", "me", "my", "us", "our", "we", "we're"]
+    second_p  = ["you", "your", "you're", "yours"]
+    third_p   = ["he", "she", "him", "her", "his", "hers",
+                 "them", "they", "their", "they're", "it", "it's"]
 
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV["consumer_key"]
@@ -57,9 +62,20 @@ class UsersController < ApplicationController
 
     avg_length = word_list.collect {|word| word[:length]}.inject(:+).to_f / word_list.size
 
+    pronoun_list = []
+    count.each do |k,v|
+      if first_p.include?(k)
+        pronoun_list << {:word => k, :freq => v, :person => "1st"}
+      elsif second_p.include?(k)
+        pronoun_list << {:word => k, :freq => v, :person => "2nd"}
+      elsif third_p.include?(k)
+        pronoun_list << {:word => k, :freq => v, :person => "3rd"}
+      end
+    end
+
     respond_to do |format|
       format.html {render action: "show"}
-      format.json {render json: {avg_length: avg_length, word_list: word_list}}
+      format.json {render json: {avg_length: avg_length, word_list: word_list, pronoun_list: pronoun_list}}
     end
 
   end
