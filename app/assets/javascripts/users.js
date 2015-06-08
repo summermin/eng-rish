@@ -26,7 +26,7 @@ $(document).ready(function(){
           $("#good").show();
         }
 
-        $(".avg_length").append(score)
+        // $(".avg_length").append(score)
 
         var words = dataset.word_list;
         var donut = new d3pie("donut_chart", {
