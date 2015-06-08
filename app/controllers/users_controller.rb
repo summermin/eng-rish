@@ -4,14 +4,22 @@ class UsersController < ApplicationController
   end
 
   def show
+  end
+
+  def get_tweets
     exclude = ["i", "i'm", "me", "my", 
-            "you", "your", "you're", 
-            "we", "we're", "us", "them", "they", "their", "they're", "it", "it's",
+            "you", "your", "you're",
+            "he", "she", "him", "her", "his", "hers",
+            "we", "we're", "us", "our", "them", "they", "their", "they're", "it", "it's",
+            "who", "whose", "whom",
             "a", "an", "the",
             "am", "is", "are", "was", "were", "be", "being", "been", "has", "have",
-            "do", "don't",
-            "as", "at", "by", "for", "of", "in", "on", "to",
-            "and", "but", "or", "yet", "nor", "so"] 
+            "do", "don't", "will", "won't", "would", "could", "get", "got",
+            "as", "at", "by", "for", "of", "in", "on", "to", "with", "from", "about", 
+            "up", "out", "so", "when", "go", "into",
+            "and", "but", "or", "yet", "nor",
+            "this", "that", "which", "there", "what", "if",
+            "just", "not", "than", "then"]
 
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV["consumer_key"]
@@ -19,8 +27,8 @@ class UsersController < ApplicationController
       config.access_token        = ENV["access_token"]
       config.access_token_secret = ENV["access_token_secret"]
     end
-    
-    tweets = client.user_timeline("#{params[:id]}",{count: 200})
+
+    tweets = client.user_timeline("#{params[:user_id]}",{count: 200})
 
     # all_tweets = tweets.map { |tweet| tweet.text }
     all_tweets = tweets.map(&:text).join(" ").downcase
@@ -40,19 +48,19 @@ class UsersController < ApplicationController
 
     count = Hash[count.sort_by{|k, v| v}.reverse]
 
-    count_new = {}
-    count.each do |word,count|
-      if !exclude.include?(word)  
-        count_new[word] = count
+    word_list = []
+    count.each do |k,v|
+      if !exclude.include?(k)
+        word_list << {:word => k, :freq => v, :length => k.length}
       end
     end
 
-    word_lengths = count_new.keys.collect do |word|
-                      word.length
-                    end  
+    avg_length = word_list.collect {|word| word[:length]}.inject(:+).to_f / word_list.size
 
-    avg_length = word_lengths.inject(:+).to_f / word_lengths.size
-    binding.pry
+    respond_to do |format|
+      format.html {render action: "show"}
+      format.json {render json: word_list}
+    end
 
   end
 
