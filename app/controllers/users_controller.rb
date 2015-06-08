@@ -7,19 +7,19 @@ class UsersController < ApplicationController
   end
 
   def get_tweets
-    exclude = ["i", "i'm", "me", "my", 
-            "you", "your", "you're",
+    exclude = ["i", "i'm", "i've", "me", "my", 
+            "you", "your", "you're", "u",
             "he", "she", "him", "her", "his", "hers",
             "we", "we're", "us", "our", "them", "they", "their", "they're", "it", "it's",
-            "who", "whose", "whom",
+            "who", "whose", "whom", "how",
             "a", "an", "the",
-            "am", "is", "are", "was", "were", "be", "being", "been", "has", "have",
-            "do", "don't", "will", "won't", "would", "could", "get", "got",
-            "as", "at", "by", "for", "of", "in", "on", "to", "with", "from", "about", 
+            "am", "is", "are", "was", "were", "be", "being", "been", "has", "have", "had",
+            "do", "don't", "did", "will", "won't", "would", "could", "get", "got", "can", "can't",
+            "as", "at", "by", "for", "of", "in", "on", "to", "too", "with", "from", "about", 
             "up", "out", "so", "when", "go", "into",
             "and", "but", "or", "yet", "nor",
-            "this", "that", "which", "there", "what", "if",
-            "just", "not", "than", "then"]
+            "this", "that", "that's", "which", "there", "what", "if",
+            "just", "not", "than", "then", "also", "like"]
 
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV["consumer_key"]
@@ -59,7 +59,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html {render action: "show"}
-      format.json {render json: word_list}
+      format.json {render json: {avg_length: avg_length, word_list: word_list}}
     end
 
   end

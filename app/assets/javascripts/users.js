@@ -6,11 +6,26 @@ $(document).ready(function(){
   });
 
    if($('body').is('#users.show')){
+    $(".score").hide();
+
     $.ajax({
       url: window.location.pathname + '/get_tweets',
       dataType: "JSON",
       type: "GET"
     }).done(function(dataset){
+        var score = dataset.avg_length;
+
+        if(score < 5.8){
+          $("#bad").show();
+        } else if(score >= 5.8 && score <= 6.2){
+          $("#okay").show();
+        } else if(score > 6.2){
+          $("#good").show();
+        }
+
+        $(".avg_length").append(score)
+
+        var words = dataset.word_list;
         var pie = new d3pie("chart", {
           header: {
             title: {
@@ -20,7 +35,7 @@ $(document).ready(function(){
               font: "courier"
             },
             subtitle: {
-              text: "Most commonly used words in Twitter",
+              text: "most commonly used words on Twitter",
               color: "#999999",
               fontSize: 12,
               font: "courier"
@@ -44,103 +59,103 @@ $(document).ready(function(){
             sortOrder: "label-desc",
             content: [
               {
-                label: dataset[0].word,
-                value: dataset[0].freq,
+                label: words[0].word,
+                value: words[0].freq,
                 color: "#333333"
               },
               {
-                label: dataset[1].word,
-                value: dataset[1].freq,
+                label: words[1].word,
+                value: words[1].freq,
                 color: "#838181"
               },
               {
-                label: dataset[2].word,
-                value: dataset[2].freq,
+                label: words[2].word,
+                value: words[2].freq,
                 color: "#cdcaca"
               },
               {
-                label: dataset[3].word,
-                value: dataset[3].freq,
+                label: words[3].word,
+                value: words[3].freq,
                 color: "#bd0a0a"
               },
               {
-                label: dataset[4].word,
-                value: dataset[4].freq,
+                label: words[4].word,
+                value: words[4].freq,
                 color: "#e67272"
               },
               {
-                label: dataset[5].word,
-                value: dataset[5].freq,
+                label: words[5].word,
+                value: words[5].freq,
                 color: "#2f9de4"
               },
               {
-                label: dataset[6].word,
-                value: dataset[6].freq,
+                label: words[6].word,
+                value: words[6].freq,
                 color: "#9f25e1"
               },
               {
-                label: dataset[7].word,
-                value: dataset[7].freq,
+                label: words[7].word,
+                value: words[7].freq,
                 color: "#2122cb"
               },
               {
-                label: dataset[8].word,
-                value: dataset[8].freq,
+                label: words[8].word,
+                value: words[8].freq,
                 color: "#fbab22"
               },
               {
-                label: dataset[9].word,
-                value: dataset[9].freq,
+                label: words[9].word,
+                value: words[9].freq,
                 color: "#ee3d97"
               },
               {
-                label: dataset[10].word,
-                value: dataset[10].freq,
+                label: words[10].word,
+                value: words[10].freq,
                 color: "#c4a1e4"
               },
               {
-                label: dataset[11].word,
-                value: dataset[11].freq,
+                label: words[11].word,
+                value: words[11].freq,
                 color: "#03b324"
               },
               {
-                label: dataset[12].word,
-                value: dataset[12].freq,
+                label: words[12].word,
+                value: words[12].freq,
                 color: "#d6ee5e"
               },
               {
-                label: dataset[13].word,
-                value: dataset[13].freq,
+                label: words[13].word,
+                value: words[13].freq,
                 color: "#75beda"
               },
               {
-                label: dataset[14].word,
-                value: dataset[14].freq,
+                label: words[14].word,
+                value: words[14].freq,
                 color: "#9debe9"
               },
               {
-                label: dataset[15].word,
-                value: dataset[15].freq,
+                label: words[15].word,
+                value: words[15].freq,
                 color: "#eb77dc"
               },
               {
-                label: dataset[16].word,
-                value: dataset[16].freq,
+                label: words[16].word,
+                value: words[16].freq,
                 color: "#599049"
               },
               {
-                label: dataset[17].word,
-                value: dataset[17].freq,
+                label: words[17].word,
+                value: words[17].freq,
                 color: "#d46f05"
               },
               {
-                label: dataset[18].word,
-                value: dataset[18].freq,
+                label: words[18].word,
+                value: words[18].freq,
                 color: "#970434"
               },
               {
-                label: dataset[19].word,
-                value: dataset[19].freq,
+                label: words[19].word,
+                value: words[19].freq,
                 color: "#6c68b8"
               }
             ]
