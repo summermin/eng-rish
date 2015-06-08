@@ -19,7 +19,17 @@ class UsersController < ApplicationController
             "up", "out", "so", "when", "go", "into",
             "and", "but", "or", "yet", "nor",
             "this", "that", "which", "there", "what", "if",
-            "just", "not", "than", "then"]
+            "just", "not", "than", "then"
+            "be", "too", "after", 
+            "all", "also", "any", "as", "back", "because", 
+            "can", "come", "day", "do", "even", "first", 
+            "give", "good", "how", "into", "know", "like", 
+            "look", "make", "most", "new", "no", "now", "one", 
+            "only", "other", "over", "person", "say", "see", 
+            "some", "take", "these", "think", "time", "two", 
+            "use", "want", "way", "well", "what", "with", "work", 
+            "would", "year"
+          ]
 
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV["consumer_key"]
