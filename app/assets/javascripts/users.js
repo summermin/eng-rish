@@ -7,7 +7,9 @@ $(document).ready(function(){
 
    if($('body').is('#users.show')){
     $(".score").hide();
-    $("#ego_button").hide()
+    $(".ego").hide();
+    $(".ego_button").hide()
+    $(".back_button").hide()
 
     $.ajax({
       url: window.location.pathname + '/get_tweets',
@@ -203,12 +205,13 @@ $(document).ready(function(){
           }
         }); //donut
       
-      $("#ego_button").show()
+      $(".ego_button").show()
 
-      $("#ego_button").bind("submit", function(event) {
+      $(".ego_button").bind("submit", function(event) {
         event.preventDefault();
         $("#donut_chart").empty();
-        $("#ego_button").hide()
+        $(".ego_button").hide()
+        $(".score").hide();
 
         var pronouns = dataset.pronoun_list;
 
@@ -230,14 +233,15 @@ $(document).ready(function(){
           header: {
             title: {
               text: "Your Ego",
-              fontSize: 22,
-              font: "verdana"
+              color: "#000000",
+              fontSize: 34,
+              font: "courier"
             },
             subtitle: {
               text: "analyzing the ratio of first person to second & third person pronouns you use",
               color: "#999999",
-              fontSize: 10,
-              font: "verdana"
+              fontSize: 12,
+              font: "courier"
             },
             titleSubtitlePadding: 12
           },
@@ -282,7 +286,7 @@ $(document).ready(function(){
               font: "verdana"
             },
             percentage: {
-              color: "#e1e1e1",
+              color: "#ffffff",
               font: "verdana",
               decimalPlaces: 0
             },
@@ -306,7 +310,19 @@ $(document).ready(function(){
             }
           }
         });
+        
+        var pronoun_total = first_total + second_total + third_total
+        var ego_score = first_total/pronoun_total
+        if(ego_score < 0.45){
+          $("#humblepie").show();
+        } else if(ego_score >= 0.45 && ego_score <= 0.6){
+          $("#somewhat").show();
+        } else if(ego_score > 0.6){
+          $("#egocentric").show();
+        }
 
+        $(".back_button").show()
+        
       });
 
       }); //.done

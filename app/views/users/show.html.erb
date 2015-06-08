@@ -3,6 +3,10 @@
 <p class = "score" id = "bad">needs some serious work. Please consider reading more books.</p>
 <p class = "score" id = "okay">has room for improvement, but overall is unobjectionable.</p>
 <p class = "score" id = "good">dare I say, is pretty good. Carry on young whippersnapper.</p>
+
+<p class = "ego" id = "egocentric">looks like someone is a little to focused on themselves</p>
+<p class = "ego" id = "somewhat">you have an acceptable level of ego.</p>
+<p class = "ego" id = "humblepie">keep being the selfless angel that you are, you humble pie you.</p>
   
 <div class = "avg_length"></div>
 
@@ -12,9 +16,16 @@
 </div>
 
 <div>
-  <form id="ego_button">
-    Also want to check the size of your ego?
-    <input type="submit" value="click here!">
-  </form>
+  <%= form_tag("", method: "get", class: "ego_button") do %>
+    <%= label_tag("Also want to check the size of your ego?") %>
+    <%= submit_tag("click here!") %>
+  <% end %>
+</div>
+
+<div>
+  <%= form_tag("/", method: "get", class: "back_button") do %>
+    <%= label_tag("Back to the homepage:") %>
+    <%= submit_tag("return") %>
+  <% end %>
 </div>
 
