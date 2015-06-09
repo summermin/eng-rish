@@ -7,6 +7,17 @@ class UsersController < ApplicationController
   end
 
   def get_tweets
+
+    scrabble = {
+      :a => 1, :b => 3, :c => 3, :d => 2,
+      :e => 1, :f => 4, :g => 2, :h => 4,
+      :i => 1, :j => 8, :k => 5, :l => 1, 
+      :m => 3, :n => 1, :o => 1, :p => 3,
+      :q => 10, :r => 1, :s => 1, :t => 1,
+      :u => 1, :v => 4, :w => 4, :x => 8,
+      :y => 4, :z => 10
+    }
+
     exclude = ["i", "i'm", "i've", "me", "my", "us", "our", "we", "we're",
             "you", "your", "you're", "yours",
             "he", "she", "him", "her", "his", "hers",
@@ -60,7 +71,16 @@ class UsersController < ApplicationController
       end
     end
 
+    word_list.each do |word_hash|
+      scrabble_score = 0
+      word_hash[:word].split("").each do |char|
+        scrabble_score += scrabble.fetch(char.to_sym, 0)
+      end
+      word_hash[:scrabble] = scrabble_score
+    end
+
     avg_length = word_list.collect {|word| word[:length]}.inject(:+).to_f / word_list.size
+    avg_scrabble = word_list.collect {|word| word[:scrabble]}.inject(:+).to_f / word_list.size
 
     pronoun_list = []
     count.each do |k,v|
@@ -75,7 +95,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html {render action: "show"}
-      format.json {render json: {avg_length: avg_length, word_list: word_list, pronoun_list: pronoun_list}}
+      format.json {render json: {avg_length: avg_length, avg_scrabble: avg_scrabble, word_list: word_list, pronoun_list: pronoun_list}}
     end
 
   end
