@@ -53,7 +53,7 @@ $(document).ready(function(){
             location: "bottom-left"
           },
           size: {
-            canvasWidth: 600,
+            canvasWidth: 620,
             pieInnerRadius: "90%",
             pieOuterRadius: "90%"
           },
