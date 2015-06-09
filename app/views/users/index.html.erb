@@ -1,8 +1,11 @@
-<h1>Your vocabulary...</h1>
+<div class = "heading">
+  <h1>Your vocabulary...</h1>
+</div>
 
-
-<%= form_tag("", method: "get", class: "twitter_form") do %>
-  <%= label_tag(:user, "Your Twitter handle:") %>
-  <%= text_field_tag(:user) %>
-  <%= submit_tag("Let's go!") %>
-<% end %>
+<div class = "home">
+  <%= form_tag("", method: "get", class: "twitter_form") do %>
+    <%= label_tag(:user, "Your Twitter handle:") %>
+    <%= text_field_tag(:user) %>
+    <%= submit_tag("Let's go!") %>
+  <% end %>
+</div>

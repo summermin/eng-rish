@@ -6,8 +6,6 @@ $(document).ready(function(){
   });
 
    if($('body').is('#users.show')){
-    $(".score").hide();
-    $(".ego").hide();
     $(".ego_button").hide()
     $(".back_button").hide()
 
@@ -19,11 +17,14 @@ $(document).ready(function(){
         var score = dataset.avg_length;
 
         if(score < 5.8){
-          $("#bad").show();
+          $(".heading").append(
+            '<h4>needs some serious work. Please consider reading more books.</h4>');
         } else if(score >= 5.8 && score <= 6.2){
-          $("#okay").show();
+          $(".heading").append(
+            '<h4>has room for improvement, but is overall unobjectionable.</h4>');
         } else if(score > 6.2){
-          $("#good").show();
+          $(".heading").append(
+            '<h4>dare I say, is pretty good. Carry on young whippersnapper.</h4>');
         }
 
         var words = dataset.word_list;
@@ -38,7 +39,7 @@ $(document).ready(function(){
             subtitle: {
               text: "most commonly used words on Twitter",
               color: "#999999",
-              fontSize: 12,
+              fontSize: 14,
               font: "courier"
             },
             location: "pie-center",
@@ -170,16 +171,16 @@ $(document).ready(function(){
               format: "none"
             },
             mainLabel: {
-              fontSize: 11
+              fontSize: 12
             },
             percentage: {
               color: "#999999",
-              fontSize: 11,
+              fontSize: 12,
               decimalPlaces: 0
             },
             value: {
               color: "#cccc43",
-              fontSize: 11
+              fontSize: 12
             },
             lines: {
               enabled: true,
@@ -203,13 +204,14 @@ $(document).ready(function(){
           }
         }); //donut
       
-      $(".ego_button").show()
+      $(".ego_button").show();
 
       $(".ego_button").bind("submit", function(event) {
         event.preventDefault();
+        $("h1").text("Your ego...")
         $("#donut_chart").empty();
-        $(".ego_button").hide()
-        $(".score").hide();
+        $(".heading h4").empty();
+        $(".ego_button").hide();
 
         var pronouns = dataset.pronoun_list;
 
@@ -230,15 +232,15 @@ $(document).ready(function(){
         var pie = new d3pie("pie_chart", {
           header: {
             title: {
-              text: "Your Ego",
+              text: "How Egocentric Are You?",
               color: "#000000",
-              fontSize: 34,
+              fontSize: 30,
               font: "courier"
             },
             subtitle: {
               text: "analyzing the ratio of first person to second & third person pronouns you use",
               color: "#999999",
-              fontSize: 12,
+              fontSize: 14,
               font: "courier"
             },
             titleSubtitlePadding: 12
@@ -250,8 +252,8 @@ $(document).ready(function(){
             location: "bottom-center"
           },
           size: {
-            canvasHeight: 400,
-            canvasWidth: 590,
+            canvasHeight: 480,
+            canvasWidth: 650,
             pieOuterRadius: "90%"
           },
           data: {
@@ -262,7 +264,7 @@ $(document).ready(function(){
                 color: "#c83163"
               },
               {
-                label: "yous guys, you're great",
+                label: "yous guys, y'all are great",
                 value: second_total,
                 color: "#4fa9b8"
               },
@@ -281,15 +283,18 @@ $(document).ready(function(){
               format: "percentage"
             },
             mainLabel: {
-              font: "verdana"
+              font: "verdana",
+              fontSize: 12
             },
             percentage: {
               color: "#ffffff",
               font: "verdana",
+              fontSize: 12,
               decimalPlaces: 0
             },
             value: {
               color: "#ffffff",
+              fontSize: 12,
               font: "verdana"
             },
             lines: {
@@ -312,14 +317,17 @@ $(document).ready(function(){
         var pronoun_total = first_total + second_total + third_total
         var ego_score = first_total/pronoun_total
         if(ego_score < 0.45){
-          $("#humblepie").show();
+          $(".heading").append(
+            '<h4>is that of a selfless angel, you humble pie you.</h4>');
         } else if(ego_score >= 0.45 && ego_score <= 0.6){
-          $("#somewhat").show();
+          $(".heading").append(
+            '<h4>is of an acceptable level; you basic.</h4>');
         } else if(ego_score > 0.6){
-          $("#egocentric").show();
+          $(".heading").append(
+            '<h4>looks like someone is a little too focused on themselves, yikes.</h4>');
         }
 
-        $(".back_button").show()
+        $(".back_button").show();
         
       });
 
